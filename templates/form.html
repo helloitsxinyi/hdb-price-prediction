@@ -1,0 +1,111 @@
+<html>
+  <body>
+    <h3>Predict property price</h3>
+<!-- ''floor_area_sqm',-->
+<!-- 'lease_commence_date',']-->
+    <div>
+      <form action="/predict_form" method="POST">
+        <label for="flattype">Flat type</label>
+        <select id="flattype" name="flattype">
+        <option value="0">1 Room</option>
+        <option value="1">2 Room</option>
+        <option value="2">3 Room</option>
+        <option value="3">4 Room</option>
+        <option value="4">5 Room</option>
+        <option value="5">Executive</option>
+        <option value="6">Multi-generation</option>
+        </select>
+      <br />
+        <label for="flatmodel">Flat model</label>
+        <select id="flatmodel" name="flatmodel">
+        <option value="0">2-room</option>
+        <option value="1">3Gen</option>
+        <option value="2">Adjoined flat</option>
+        <option value="3">Apartment</option>
+        <option value="4">DBSS</option>
+        <option value="5">Improved</option>
+        <option value="6">Improved-Maisonette</option>
+        <option value="7">Maisonette</option>
+        <option value="8">Model A</option>
+        <option value="9">Model A-Maisonette</option>
+        <option value="10">Model A2</option>
+        <option value="11">Multi Generation</option>
+        <option value="12">New Generation</option>
+        <option value="13">Premium Apartment</option>
+        <option value="14">Premium Apartment Loft</option>
+        <option value="15">Premium Maisonette</option>
+        <option value="16">Simplified</option>
+        <option value="17">Standard</option>
+        <option value="18">Terrace</option>
+        <option value="19">Type S1</option>
+        <option value="20">Type S2</option>
+        </select>
+        <br/>
+         <label for="floorarea">Floor Area (sqm)</label>
+        <input type="number" id="floorarea" name="floorarea" required/>
+        <br />
+         <label for="lease">Lease commencement year</label>
+        <input type="number" id="lease" name="lease" max="2022" required/>
+        <br />
+        <label for="storey">Storey Range</label>
+        <select id="storey" name="storey">
+        <option value="0">01 to 03</option>
+        <option value="1">04 to 06</option>
+        <option value="2">07 to 09</option>
+        <option value="3">10 to 12</option>
+        <option value="4">13 to 15</option>
+        <option value="5">16 to 18</option>
+        <option value="6">19 to 21</option>
+        <option value="7">22 to 24</option>
+        <option value="8">25 to 27</option>
+        <option value="9">28 to 30</option>
+        <option value="10">31 to 33</option>
+        <option value="11">34 to 36</option>
+        <option value="12">37 to 39</option>
+        <option value="13">40 to 42</option>
+        <option value="14">43 to 45</option>
+        <option value="15">46 to 48</option>
+        <option value="16">49 to 51</option>
+        </select>
+          <br/>
+           <label for="town">Town</label>
+        <select id="town" name="town">
+        <option value="0">Ang Mo Kio</option>
+        <option value="1">Bedok</option>
+        <option value="2">Bishan</option>
+        <option value="3">Bukit Batok</option>
+        <option value="4">Bukit Merah</option>
+        <option value="5">Bukit Panjang</option>
+        <option value="6">Bukit Timah</option>
+        <option value="7">Central Area</option>
+        <option value="8">Choa Chu Kang</option>
+        <option value="9">Clementi</option>
+        <option value="10">Geylang</option>
+        <option value="11">Hougang</option>
+        <option value="12">Jurong East</option>
+        <option value="13">Jurong West</option>
+        <option value="14">Kallang/Whampoa</option>
+        <option value="15">Marine Parade</option>
+        <option value="16">Pasir Ris</option>
+        <option value="17">Punggol</option>
+        <option value="18">Queenstown</option>
+        <option value="19">Sembawang</option>
+        <option value="20">Sengkang</option>
+        <option value="21">Serangoon</option>
+        <option value="22">Tampines</option>
+        <option value="23">Toa Payoh</option>
+        <option value="24">Woodlands</option>
+        <option value="25">Yishun</option>
+      </select>
+      <br />
+            <label for="start">Start date</label>
+        <input type="text" id="start" name="start" required/>
+        <br />
+          <label for="months">Months to predict</label>
+        <input type="number" id="months" name="months" min="1" required/>
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
+</html>
