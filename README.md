@@ -1,4 +1,4 @@
-# AD price prediction ML model
+# Property price prediction API
 
 ## Table of Contents
 
@@ -8,18 +8,31 @@
 4. [Endpoints](#endpoints)
 
 ## About
+This repo contains files and Jupyter notebooks for the price prediction of HDB resale flats in Singapore.
 
-This repo is organized as follows:
+The data is obtained from `data.gov.sg` (Singapore publicly available data) and we are using a Flask API for price prediction, price trend calculation and checking for data updates.
 
-- Training: 
-  - Jupyter notebook for data extraction (this will help us obtain SavedData.csv needed for the second notebook)
-  - Jupyter notebook for preprocessing + model training
-  - Saved model.pkl which will change as model changes.
-- app.py: the Flask app.
+<hr>
 
-There are 2 ways you can view the prediction. 
-- The first is entering values and submitting the form on the main page.
-- The other way is to send in a JSON request. See [Endpoints](#endpoints) for sample input and outputs. 
+The repo is organized as follows:
+- `/data`: All saved data for model training is stored here.
+- `/templates`: HTML files for the webpage and form.
+- `/training_notebooks`: 
+  1. `1_data_extraction.ipynb`: Jupyter notebook for data extraction
+     1. This will help us obtain SavedData.csv needed for the second notebook)
+     2. This notebook can be used in place of the `/checkupdates` endpoint if desired.
+
+  2. `2_data_preprocessing.ipynb`
+     1. Jupyter notebook for data preprocessing and model training
+
+- `/utils`: Contains helper and prediction functions for the various endpoints.
+
+<hr>
+2 ways you can view the prediction:
+
+1. Entering values and submitting the form on the main page. 
+2. Send in a POST request. See [Endpoints](#endpoints) for sample input and outputs. 
+
 
 ## Setup
 
@@ -51,10 +64,8 @@ source env/bin/activate
 Windows:
 
 ```
-.\env\Scripts\activate
-
 <env path>\Scripts\activate
-(The env path should be the path to the virtual environment)
+
 
 ```
 
@@ -75,26 +86,26 @@ py -m pip install -r requirements.txt
 
 4. Run Flask app in debugger mode:
 
-Mac & Windows:
+Mac:
 ```
 python3 app.py
+```
 
-
-(windows)
+Windows:
+```
 python app.py 
 ```
 
-
-5. **IMPORTANT** Run the `2_data_preprocessing.ipynb` notebook. 
-As the `model.pkl` file is too large to be uploaded onto github, we will have to obtain the model pkl file this way.
+5. **IMPORTANT** Run all cells of the `2_data_preprocessing.ipynb` notebook to obtain the `model.pkl` and `month_encoder.pkl` files. 
+These files are required for the price prediction model.
 
 
 ## Endpoints
-By default, the app is hosted on http://127.0.0.1:5000/.
+By default, the app is hosted on http://127.0.0.1:5000/. Loading this URL on a web browser will return a sample form that you can use to test and view the predicted prices (in HTML format).
 
-1. "/predict" (REST POST)
-REST API endpoint for obtaining predicted price result (JSON).
-Request body values correspond to label encoded values. See [Label Encoded Values](#label-encoded-values) for the encoded values.
+1. `/predict` (REST POST):
+- REST API endpoint for obtaining predicted price result (JSON).
+  Request body values correspond to label encoded values. See [Label Encoded Values](#label-encoded-values) for the encoded values.
 
 Sample request body:
 ```
@@ -110,7 +121,7 @@ Sample request body:
 }
 ```
 
-The length of response will be the number of months + 1, where the first entry corresponds to the start date.
+This will return an array of objects. The number of objects corresponds to number of months + 1, where the first object corresponds to the start date.
 
 Sample response:
 ```
@@ -134,16 +145,42 @@ Sample response:
 ]
 ```
 
-2. "/" (GET)
-The page loaded is a sample form that you can use to test and view the predicted prices (in HTML format).
+2. `/pricetrend` (REST GET)
+- API endpoint for obtaining average price per sq m of HDB resale flats over the previous months.
 
-3. "/predict_form" (POST)
-HTML webpage to display the predicted price result.
+Sample response:
+```
+[
+    {
+        "date": 1483228800000,
+        "price_per_sq_m": 4523.77
+    },
+    {
+        "date": 1485907200000,
+        "price_per_sq_m": 4585.07
+    },
+    {
+        "date": 1488326400000,
+        "price_per_sq_m": 4624.39
+    }
+]
+```
 
+
+3. `/checkupdates` (REST GET)
+- API endpoint for checking if there are new updates to the api on `data.gov.sg`, and if existing data has been successfully overwritten.
+
+Sample response:
+```
+{
+    "success": true,
+    "updates": true
+}
+```
 
 ## Label encoded values
-As a rough model, we use label encoding for the features: `town, flat model, flat type, storey`.
-The features are encoded as follows:
+We use label encoding for the request body inputs: `town, flat_model, flat_type, storey`.
+The mappings are encoded as follows:
 
 Town:
 ```

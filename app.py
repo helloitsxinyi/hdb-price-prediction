@@ -111,5 +111,19 @@ def convert_latest_data_types(latest_data):
     return latest_data
 
 
+# for webpage purposes only
+@app.route('/')
+def index():
+    return render_template("form.html")
+
+# for webpage purposes only
+@app.route("/predict_form", methods=["POST"])
+def result_form():
+    if request.method == "POST":
+        input_list = request.form.to_dict()
+        input_list = list(input_list.values())
+        result_df = createResultDataFrame(input_list)
+        return render_template("result.html", prediction=result_df)
+
 if __name__ == "__main__":
     app.run(debug=True)
