@@ -1,6 +1,6 @@
 numpy>=1.21.00
 pandas>=1.4.3
-scikit-learn>=1.1.1
+scikit-learn>=1.1.2
 seaborn>=0.11.2
 matplotlib>=3.5.2
 flask>=2.1.3
